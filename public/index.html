@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VernacPay AI - Voice-Native Vernacular Micro-Commerce</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header & Platform Trust Badges -->
+    <header>
+        <div class="brand">
+            <div class="brand-icon">🎙️</div>
+            <div>
+                <h1 class="brand-title">VernacPay AI</h1>
+                <p class="brand-subtitle">Voice-Native Vernacular Micro-Commerce Agent</p>
+            </div>
+        </div>
+
+        <div class="header-status">
+            <span class="badge badge-emerald">
+                <span class="dot-pulse"></span>
+                <span>Soundbox Active</span>
+            </span>
+            <span class="badge badge-blue">
+                <span>🛡️ AI Isolated from Funds</span>
+            </span>
+            <span class="badge badge-amber">
+                <span>₹10,000 Safety Cap</span>
+            </span>
+        </div>
+    </header>
+
+    <!-- Main Workspace Grid -->
+    <main>
+        
+        <!-- Left Column: Voice Terminal & Hardware Soundbox Unit -->
+        <section class="voice-terminal">
+
+            <!-- Soundbox 2.0 Hardware Unit -->
+            <div class="soundbox-hardware" id="soundboxUnit">
+                <div class="soundbox-left">
+                    <div class="speaker-grill" id="speakerGrill">🔊</div>
+                    <div class="soundbox-info">
+                        <h4>VernacSoundbox 2.0</h4>
+                        <p id="soundboxStatus">Voice ready • Waiting for payment command...</p>
+                    </div>
+                </div>
+                <div class="soundbox-controls">
+                    <button class="btn-icon" id="btnTodayTally" title="Speak Today's Tally">📊 आज का हिसाब</button>
+                    <button class="btn-icon" id="btnToggleMute" title="Toggle Sound">🔔 Mute/Unmute</button>
+                </div>
+            </div>
+
+            <!-- Giant Push-to-Talk Mic Section -->
+            <div class="card voice-hero">
+                <div class="mic-wrapper">
+                    <div class="mic-ripple"></div>
+                    <button class="mic-btn" id="btnMic" title="Click or Hold to Speak">
+                        🎙️
+                    </button>
+                </div>
+
+                <div>
+                    <h3 class="voice-status-text" id="voiceStatusText">Press to Speak in Your Dialect</h3>
+                    <p class="voice-status-sub" id="voiceStatusSub">
+                        Dictate in Hindi, Telugu, Urdu, Tamil, Bengali, or English. The AI extracts the amount and creates the payment QR autonomously.
+                    </p>
+                </div>
+
+                <!-- Dialect Selector -->
+                <div class="dialect-bar" id="dialectBar">
+                    <button class="lang-chip active" data-lang="hi-IN" data-code="hi">🇮🇳 हिन्दी (Hindi)</button>
+                    <button class="lang-chip" data-lang="te-IN" data-code="te">🇮🇳 తెలుగు (Telugu)</button>
+                    <button class="lang-chip" data-lang="ur-PK" data-code="ur">🇵🇰 اردو (Urdu)</button>
+                    <button class="lang-chip" data-lang="ta-IN" data-code="ta">🇮🇳 தமிழ் (Tamil)</button>
+                    <button class="lang-chip" data-lang="bn-IN" data-code="bn">🇮🇳 বাংলা (Bengali)</button>
+                    <button class="lang-chip" data-lang="en-IN" data-code="en">🌐 English (India)</button>
+                </div>
+            </div>
+
+            <!-- Live Spoken Transcript & Manual Fallback -->
+            <div class="card transcript-box">
+                <div class="transcript-header">
+                    <span>Recognized Voice Command</span>
+                    <span id="intentConfidence">AI Confidence: 0%</span>
+                </div>
+                <textarea class="transcript-input" id="transcriptInput" rows="2" 
+                    placeholder="E.g., 'Charge 500 rupees for this month\'s classes' or 'रमेश भाई से 120 रुपये लो'"></textarea>
+                <div class="manual-submit-row">
+                    <button class="btn-primary" id="btnProcessManual">Route Intent & Generate QR ⚡</button>
+                </div>
+            </div>
+
+            <!-- Vernacular 1-Click Demos for Street Vendors & Tutors -->
+            <div class="card">
+                <div class="card-title">
+                    <span>⚡ Try Real Vernacular Scenarios</span>
+                    <span style="font-size: 0.75rem; color: var(--text-muted);">1-Click Speech Simulator</span>
+                </div>
+
+                <div class="sample-prompts" id="samplePromptsContainer">
+                    <!-- Populated dynamically by app.js -->
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Right Column: Dynamic QR, Customer Simulator & Audio Ledger -->
+        <section class="commerce-presentation">
+
+            <!-- Guardrail Safety Alert Box (Hidden by default) -->
+            <div class="guardrail-alert" id="guardrailAlert" style="display: none;">
+                <h4>🛡️ Micro-Commerce Safety Boundary Triggered</h4>
+                <p id="guardrailAlertMsg">Transaction amount exceeds the informal vendor limit of ₹10,000.</p>
+            </div>
+
+            <!-- Dynamic QR Code & Order Card -->
+            <div class="card qr-card" id="qrCard">
+                <div class="card-title" style="width: 100%;">
+                    <span>Dynamic One-Time Payment QR</span>
+                    <span class="badge badge-emerald" id="qrStatusBadge">Ready for Customer Scan</span>
+                </div>
+
+                <div class="qr-frame">
+                    <img id="qrImage" class="qr-image" src="" alt="Dynamic QR Code" />
+                </div>
+
+                <div>
+                    <div class="qr-amount-hero" id="qrAmountDisplay">₹0.00</div>
+                    <div class="qr-party" id="qrPartyDisplay">Customer: Waiting for command</div>
+                    <div class="qr-desc" id="qrDescDisplay">Reason: Local commerce order</div>
+                </div>
+
+                <div class="token-link-pill" id="tokenLinkDisplay">
+                    upi://pay?pa=vernacpay.merchant@icici&am=0.00
+                </div>
+
+                <!-- Customer Payment Simulator -->
+                <div class="simulator-box" style="width: 100%;">
+                    <div class="simulator-title">
+                        <span>📲 Customer Settlement Simulator</span>
+                    </div>
+                    <p style="font-size: 0.75rem; color: #a5b4fc; margin-bottom: 0.75rem;">
+                        Simulate the customer scanning the QR code or clicking "Pay Now" on their phone:
+                    </p>
+                    <button class="btn-simulate-pay" id="btnSimulatePay">
+                        <span>💳 Customer Pays Now (Simulate Settlement)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Real-Time Screen-Free Audio Ledger & History -->
+            <div class="card">
+                <div class="card-title">
+                    <span>📜 Screen-Free Audio Ledger</span>
+                    <span style="font-size: 0.75rem; color: #34d399;" id="ledgerSummaryStats">Settled: ₹0 • 0 Orders</span>
+                </div>
+
+                <div class="ledger-stream" id="ledgerStream">
+                    <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 2rem 0;">
+                        No voice transactions yet today. Speak a command to initiate micro-commerce!
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer Architecture Summary -->
+    <footer>
+        <div>
+            <strong>Architecture:</strong> Python (Gemini 3.8 Flash Vernacular NLP) + Node.js (PayPal Agentic Commerce & Dynamic QR Engine)
+        </div>
+        <div>
+            Zero UI Friction • Screen-Free Audio Ledger • Financial Inclusion for 60%+ Informal Workforce
+        </div>
+    </footer>
+
+    <!-- Audio Chimes & Synthesis Scripts -->
+    <script src="audio-chimes.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
