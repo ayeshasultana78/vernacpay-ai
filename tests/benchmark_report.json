@@ -1,0 +1,58 @@
+{
+  "timestamp": "2026-10-28T17:31:43.521Z",
+  "totalTests": 22,
+  "passedTests": 22,
+  "accuracyPct": 100,
+  "latencies": {
+    "mean": 34,
+    "p50": 31,
+    "p95": 78,
+    "min": 9,
+    "max": 111
+  },
+  "throughputRps": 35.5,
+  "categories": [
+    {
+      "category": "Hindi Dialects",
+      "passed": 5,
+      "total": 5,
+      "pct": 100
+    },
+    {
+      "category": "Telugu Dialects",
+      "passed": 3,
+      "total": 3,
+      "pct": 100
+    },
+    {
+      "category": "Urdu Dialects",
+      "passed": 2,
+      "total": 2,
+      "pct": 100
+    },
+    {
+      "category": "Tamil Dialects",
+      "passed": 2,
+      "total": 2,
+      "pct": 100
+    },
+    {
+      "category": "Bengali & English",
+      "passed": 3,
+      "total": 3,
+      "pct": 100
+    },
+    {
+      "category": "Flexibility & Slang",
+      "passed": 3,
+      "total": 3,
+      "pct": 100
+    },
+    {
+      "category": "Safety & Guardrails",
+      "passed": 4,
+      "total": 4,
+      "pct": 100
+    }
+  ]
+}

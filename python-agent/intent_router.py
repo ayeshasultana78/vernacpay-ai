@@ -137,20 +137,34 @@ class IntentRouter:
         elif re.search(r"[\u0980-\u09ff]", text) or any(w in lower for w in ["টাকা", "পেমেন্ট", "কিউআর"]):
             detected_lang = "bn"
         # Devanagari (Hindi) unicode range: \u0900-\u097f
-        elif re.search(r"[\u0900-\u097f]", text) or any(w in lower for w in ["rupaye", "roopaye", "sau", "hazaar", "bhai", "bhaiya", "banao", "lo", "chahiye", "pachas"]):
+        elif re.search(r"[\u0900-\u097f]", text):
             detected_lang = "hi"
-        elif any(w in lower for w in ["charge", "please", "classes", "tuition", "bill", "payment"]):
+        # English / Code-switched markers
+        elif any(w in lower for w in ["charge", "please", "classes", "tuition", "bill", "payment", "request", "send a payment", "take", "transfer"]):
             detected_lang = "en"
+        elif any(w in lower for w in ["rupaye", "roopaye", "sau", "hazaar", "bhai", "bhaiya", "banao", "lo", "chahiye", "pachas"]):
+            detected_lang = "hi"
 
         # Number extraction
         amount = 0.0
-        # 1. Search for numeric digits (e.g. 500, 120, 250.50)
-        digits_match = re.search(r"(?:₹|\$|rs\.?|inr)?\s*([0-9]+(?:\.[0-9]+)?)\s*(?:₹|\$|rupees|rupaye|roopaye|రూపాయలు|రూ|روپے|ரூபாய்|টাকা)?", lower)
+        # Normalize: strip commas between numbers (e.g. 25,000 -> 25000)
+        normalized_lower = re.sub(r"(?<=\d),(?=\d)", "", lower)
+
+        # 1. Search for numeric digits (e.g. 500, 120, 250.50, 25000)
+        digits_match = re.search(r"(?:₹|\$|rs\.?|inr)?\s*([0-9]+(?:\.[0-9]+)?)\s*(?:₹|\$|rupees|rupaye|roopaye|రూపాయలు|రూ|روپے|ரூபாய்|টাকা)?", normalized_lower)
         if digits_match:
             amount = float(digits_match.group(1))
 
         # 2. Vernacular phrase amounts
         vernacular_numbers = {
+            # English verbal numbers
+            "fifteen hundred": 1500.0,
+            "one thousand five hundred": 1500.0,
+            "two thousand": 2000.0,
+            "five hundred": 500.0,
+            "one thousand": 1000.0,
+            "two hundred": 200.0,
+            "three hundred": 300.0,
             # Hindi / Urdu / Hinglish
             "paanch sau": 500.0,
             "panch sau": 500.0,
@@ -175,6 +189,8 @@ class IntentRouter:
             "पंद्रह सौ": 1500.0,
             "sau rupaye": 100.0,
             "सौ रुपये": 100.0,
+            "pachhattar": 75.0,
+            "पचहत्तर": 75.0,
             # Telugu
             "ఐదు వందలు": 500.0,
             "rendu vandhalu": 200.0,

@@ -239,11 +239,14 @@ app.get('/api/ledger/daily-summary', (req, res) => {
 function simulateLocalIntentParsing(transcript) {
     const clean = transcript.trim();
     const lower = clean.toLowerCase();
+    const normalizedLower = lower.replace(/(?<=\d),(?=\d)/g, '');
     
     let amount = 0;
-    const digits = lower.match(/(?:₹|\$|rs\.?)?\s*([0-9]+(?:\.[0-9]+)?)/);
+    const digits = normalizedLower.match(/(?:₹|\$|rs\.?)?\s*([0-9]+(?:\.[0-9]+)?)/);
     if (digits) {
         amount = parseFloat(digits[1]);
+    } else if (lower.includes('fifteen hundred') || lower.includes('pandrah sau')) {
+        amount = 1500;
     } else if (lower.includes('paanch sau') || lower.includes('panch sau') || clean.includes('500') || clean.includes('ఐదు వందలు')) {
         amount = 500;
     } else if (lower.includes('ek sau bees') || clean.includes('120')) {
@@ -253,7 +256,9 @@ function simulateLocalIntentParsing(transcript) {
     }
 
     let lang = 'en';
-    if (/[\u0900-\u097f]/.test(clean) || /rupaye|bhai|sau|hazaar/.test(lower)) lang = 'hi';
+    if (/[\u0900-\u097f]/.test(clean)) lang = 'hi';
+    else if (/(?:charge|please|classes|tuition|bill|payment|request|send|take)/.test(lower)) lang = 'en';
+    else if (/rupaye|bhai|sau|hazaar/.test(lower)) lang = 'hi';
     else if (/[\u0c00-\u0c7f]/.test(clean)) lang = 'te';
     else if (/[\u0600-\u06ff]/.test(clean)) lang = 'ur';
     else if (/[\u0b80-\u0bff]/.test(clean)) lang = 'ta';
